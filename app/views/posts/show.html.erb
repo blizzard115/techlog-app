@@ -14,24 +14,22 @@
             </p>
 
             <div class="flex gap-2 pt-3">
-              <span class="text-xs px-2 py-1 rounded bg-indigo-100 text-indigo-700">
+              <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= @post.post_type == "study_log" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700" %>">
                 <%= @post.post_type == "study_log" ? "学習記録" : "エラーログ" %>
               </span>
 
-              <span class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700">
+              <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= @post.status == "solved" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700" %>">
                 <%= @post.status == "solved" ? "解決済み" : "未解決" %>
               </span>
 
-              <span class="text-xs px-2 py-1 rounded bg-green-100 text-green-700">
+              <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= @post.is_public ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700" %>">
                 <%= @post.is_public ? "公開" : "非公開" %>
               </span>
             </div>
           </div>
 
-          <% if user_signed_in? %>
-            <% if @post.user_id == current_user.id %>
-              <%= button_to "削除", post_path(@post), method: :delete, class: "text-sm bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded hover:cursor-pointer" %>
-            <% end %>
+          <% if user_signed_in? && @post.user == current_user %>
+            <%= button_to "削除", post_path(@post), method: :delete, class: "text-sm bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-1 px-3 border border-blue-500 hover:border-transparent rounded hover:cursor-pointer" %>
           <% end %>
         </div>
       </div>
