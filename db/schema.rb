@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_26_065151) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_24_062819) do
   create_table "posts", force: :cascade do |t|
     t.string "title"
-    t.string "content"
+    t.text "content"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "post_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.boolean "is_public", default: true, null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 

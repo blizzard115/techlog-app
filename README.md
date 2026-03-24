@@ -1,24 +1,53 @@
-# README
+# TechLog
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 概要
+TechLogは、日々の学習内容やエラーの解決過程を記録・管理できるWebアプリケーションです。
 
-Things you may want to cover:
+学習記録とエラーログを一元管理し、振り返りや問題解決の効率化を目的としています。
 
-* Ruby version
+## 作成背景
+プログラミング学習を進める中で、エラーの内容や解決方法を記録しても、後から見返しづらいと感じていました。
 
-* System dependencies
+また、単なるメモでは「どのエラーが未解決なのか」「どの学習内容なのか」が分かりにくく、整理された形で管理したいと考えました。
 
-* Configuration
+そこで、学習記録とエラーログを分けて管理し、解決状況や公開設定などを持たせることで、より実用的なログ管理アプリを開発しました。
 
-* Database creation
+## 主な機能
 
-* Database initialization
+### 投稿機能
+- 学習記録 / エラーログの投稿
+- タイトル・本文の入力
 
-* How to run the test suite
+### 投稿タイプ管理
+- 学習記録とエラーログを分類
 
-* Services (job queues, cache servers, search engines, etc.)
+### ステータス管理
+- 未解決 / 解決済みの管理
 
-* Deployment instructions
+### 公開設定
+- 投稿の公開 / 非公開の切り替え
 
-* ...
+### 投稿一覧表示
+- 最新順での表示
+- 投稿タイプ・ステータスをタグ形式で表示
+
+### 投稿詳細表示
+- 詳細情報の表示
+- 投稿者のみ削除可能
+
+## 使用技術
+
+- Ruby 3.x
+- Ruby on Rails 7.x
+- PostgreSQL
+- Docker（開発環境）
+- Tailwind CSS
+- Devise（認証機能）
+
+## 今後の改善予定
+
+- 投稿の検索機能
+- タグ機能の追加
+- コメント機能の実装
+- 未解決エラーのフィルタリング機能
+- UI/UXのさらなる改善
