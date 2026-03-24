@@ -23,7 +23,7 @@ class PostsController < ApplicationController
   end
  
   def show
-    @post = Post.find(id: params[:id])
+    @post = Post.find(params[:id])
   end
  
   def destroy
