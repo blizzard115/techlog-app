@@ -1,12 +1,60 @@
 <div class="space-y-6 w-3/4 max-w-lg mx-auto">
-  <h2 class="text-xl font-bold text-gray-900">
+  <h1 class="text-xl font-bold text-gray-900">
     <%= @user.nickname %>さんの学習・エラーログ一覧
-  </h2>
-  <p class="text-gray-600">全投稿数: <%= @post_count %>件</p>
+  </h1>
+
+  <%= form_with url: user_path(@user), method: :get, local: true, class: "mb-6" do |f| %>
+    <div class="flex gap-2">
+      <%= f.text_field :keyword,
+        value: params[:keyword],
+        placeholder: "キーワードで検索",
+        class: "flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" %>
+
+      <%= f.hidden_field :status, value: params[:status] %>
+      <%= f.hidden_field :post_type, value: params[:post_type] %>
+
+      <%= f.submit "検索",
+        class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition" %>
+    </div>
+  <% end %>
+
+  <div class="flex gap-2 mb-4">
+    <%= link_to "すべて", user_path(@user, status: params[:status], keyword: params[:keyword]),
+      class: "px-3 py-1 rounded #{params[:post_type].blank? ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}" %>
+
+    <%= link_to "学習記録", user_path(@user, post_type: "study_log", status: params[:status], keyword: params[:keyword]),
+      class: "px-3 py-1 rounded #{params[:post_type] == 'study_log' ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-700'}" %>
+
+    <%= link_to "エラーログ", user_path(@user, post_type: "error_log", status: params[:status], keyword: params[:keyword]),
+      class: "px-3 py-1 rounded #{params[:post_type] == 'error_log' ? 'bg-purple-500 text-white' : 'bg-purple-100 text-purple-700'}" %>
+  </div>
+
+  <div class="flex gap-2 mb-6">
+    <%= link_to "すべて", user_path(@user, post_type: params[:post_type], keyword: params[:keyword]),
+      class: "px-3 py-1 rounded #{params[:status].blank? ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}" %>
+
+    <%= link_to "未解決", user_path(@user, status: "unsolved", post_type: params[:post_type], keyword: params[:keyword]),
+      class: "px-3 py-1 rounded #{params[:status] == 'unsolved' ? 'bg-red-500 text-white' : 'bg-red-100 text-red-700'}" %>
+
+    <%= link_to "解決済み", user_path(@user, status: "solved", post_type: params[:post_type], keyword: params[:keyword]),
+      class: "px-3 py-1 rounded #{params[:status] == 'solved' ? 'bg-green-500 text-white' : 'bg-green-100 text-green-700'}" %>
+  </div>
+
+  <% if params[:keyword].present? || params[:status].present? || params[:post_type].present? %>
+    <p class="text-sm text-gray-500 mb-2">
+      条件に一致するログが <%= @post_count %>件見つかりました
+    </p>
+  <% else %>
+    <p class="text-gray-600">全投稿数: <%= @post_count %>件</p>
+  <% end %>
 
   <% if @posts.empty? %>
     <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-      <p class="text-gray-600">まだ投稿がありません。</p>
+      <% if params[:keyword].present? || params[:status].present? || params[:post_type].present? %>
+        <p class="text-gray-600">条件に一致するログがありません。</p>
+      <% else %>
+        <p class="text-gray-600">まだ投稿がありません。</p>
+      <% end %>
     </div>
   <% else %>
     <div class="space-y-6">
