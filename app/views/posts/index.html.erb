@@ -15,9 +15,9 @@
         class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition" %>
     </div>
   <% end %>
-  <% if params[:keyword].present? %>
+  <% if params[:keyword].present? || params[:status].present? || params[:post_type].present? %>
     <p class="text-sm text-gray-500 mb-2">
-      「<%= params[:keyword] %>」の検索結果：<%= @posts.count %>件
+      条件に一致するログが <%= @posts.count %>件見つかりました
     </p>
   <% end %>
 
@@ -43,10 +43,14 @@
       class: "px-3 py-1 rounded #{params[:status] == 'solved' ? 'bg-green-500 text-white' : 'bg-green-100 text-green-700'}" %>
   </div>
 
-  <div class="items-center justify-center">
+  <div>
     <% if @posts.empty? %>
       <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-        <p class="text-gray-600">条件に一致するログがありません。</p>
+        <% if params[:keyword].present? || params[:status].present? || params[:post_type].present? %>
+          <p class="text-gray-600">条件に一致するログがありません。</p>
+        <% else %>
+          <p class="text-gray-600">まだ投稿がありません。</p>
+        <% end %>
       </div>
     <% else %>
       <% @posts.each do |post| %>
@@ -82,6 +86,6 @@
           </div>
         </div>
       <% end %>
-    <% end %>  
+    <% end %>
   </div>
 </div>

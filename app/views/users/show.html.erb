@@ -1,7 +1,7 @@
 <div class="space-y-6 w-3/4 max-w-lg mx-auto">
-  <h2 class="text-xl font-bold text-gray-900">
+  <h1 class="text-xl font-bold text-gray-900">
     <%= @user.nickname %>さんの学習・エラーログ一覧
-  </h2>
+  </h1>
 
   <%= form_with url: user_path(@user), method: :get, local: true, class: "mb-6" do |f| %>
     <div class="flex gap-2">
@@ -42,7 +42,7 @@
 
   <% if params[:keyword].present? || params[:status].present? || params[:post_type].present? %>
     <p class="text-sm text-gray-500 mb-2">
-      <%= @post_count %>件のログが見つかりました
+      条件に一致するログが <%= @post_count %>件見つかりました
     </p>
   <% else %>
     <p class="text-gray-600">全投稿数: <%= @post_count %>件</p>
