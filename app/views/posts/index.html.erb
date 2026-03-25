@@ -15,6 +15,11 @@
         class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition" %>
     </div>
   <% end %>
+  <% if params[:keyword].present? %>
+    <p class="text-sm text-gray-500 mb-2">
+      「<%= params[:keyword] %>」の検索結果：<%= @posts.count %>件
+    </p>
+  <% end %>
 
   <div class="flex gap-2 mb-4">
     <%= link_to "すべて", posts_path(status: params[:status], keyword: params[:keyword]),
@@ -39,38 +44,44 @@
   </div>
 
   <div class="items-center justify-center">
-    <% @posts.each do |post| %>
-      <div class="focus:outline-none mb-7 bg-white p-6 shadow rounded">
-        <div class="flex items-center border-b border-gray-200 pb-6">
-          <div class="flex items-start justify-between w-full">
-            <div class="pl-3">
-              <p class="focus:outline-none text-lg font-medium leading-5 text-gray-800">
-                <%= link_to post.title, post_path(post) %>
-              </p>
+    <% if @posts.empty? %>
+      <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+        <p class="text-gray-600">条件に一致するログがありません。</p>
+      </div>
+    <% else %>
+      <% @posts.each do |post| %>
+        <div class="focus:outline-none mb-7 bg-white p-6 shadow rounded">
+          <div class="flex items-center border-b border-gray-200 pb-6">
+            <div class="flex items-start justify-between w-full">
+              <div class="pl-3">
+                <p class="focus:outline-none text-lg font-medium leading-5 text-gray-800">
+                  <%= link_to post.title, post_path(post) %>
+                </p>
 
-              <p class="focus:outline-none text-sm leading-normal pt-2 text-gray-500">
-                by <%= link_to post.user.nickname, user_path(post.user), class: "hover:text-indigo-600 hover:font-bold" %>
-              </p>
+                <p class="focus:outline-none text-sm leading-normal pt-2 text-gray-500">
+                  by <%= link_to post.user.nickname, user_path(post.user), class: "hover:text-indigo-600 hover:font-bold" %>
+                </p>
 
-              <div class="flex gap-2 pt-3">
-                <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= post.post_type == 'study_log' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700' %>">
-                  <%= post.post_type == "study_log" ? "学習記録" : "エラーログ" %>
-                </span>
+                <div class="flex gap-2 pt-3">
+                  <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= post.post_type == 'study_log' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700' %>">
+                    <%= post.post_type == "study_log" ? "学習記録" : "エラーログ" %>
+                  </span>
 
-                <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= post.status == 'solved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
-                  <%= post.status == "solved" ? "解決済み" : "未解決" %>
-                </span>
+                  <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= post.status == 'solved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                    <%= post.status == "solved" ? "解決済み" : "未解決" %>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="px-2">
-          <p class="focus:outline-none text-sm leading-5 py-4 text-gray-600 line-clamp-3 overflow-hidden">
-            <%= post.content %>
-          </p>
+          <div class="px-2">
+            <p class="focus:outline-none text-sm leading-5 py-4 text-gray-600 line-clamp-3 overflow-hidden">
+              <%= post.content %>
+            </p>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    <% end %>  
   </div>
 </div>
