@@ -1,5 +1,28 @@
 <div class="space-y-6 w-3/4 max-w-lg mx-auto">
-  <label class="block text-xl font-bold text-gray-700">学習・エラーログ一覧</label>
+  <h1 class="block text-xl font-bold text-gray-700">学習・エラーログ一覧</h1>
+
+  <div class="flex gap-2 mb-4">
+    <%= link_to "すべて", posts_path(status: params[:status]),
+      class: "px-3 py-1 rounded #{params[:post_type].blank? ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}" %>
+
+    <%= link_to "学習記録", posts_path(post_type: "study_log", status: params[:status]),
+      class: "px-3 py-1 rounded #{params[:post_type] == 'study_log' ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-700'}" %>
+
+    <%= link_to "エラーログ", posts_path(post_type: "error_log", status: params[:status]),
+      class: "px-3 py-1 rounded #{params[:post_type] == 'error_log' ? 'bg-purple-500 text-white' : 'bg-purple-100 text-purple-700'}" %>
+  </div>
+
+  <div class="flex gap-2 mb-6">
+    <%= link_to "すべて", posts_path(post_type: params[:post_type]),
+      class: "px-3 py-1 rounded #{params[:status].blank? ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}" %>
+
+    <%= link_to "未解決", posts_path(status: "unsolved", post_type: params[:post_type]),
+      class: "px-3 py-1 rounded #{params[:status] == 'unsolved' ? 'bg-red-500 text-white' : 'bg-red-100 text-red-700'}" %>
+
+    <%= link_to "解決済み", posts_path(status: "solved", post_type: params[:post_type]),
+      class: "px-3 py-1 rounded #{params[:status] == 'solved' ? 'bg-green-500 text-white' : 'bg-green-100 text-green-700'}" %>
+  </div>
+
   <div class="items-center justify-center">
     <% @posts.each do |post| %>
       <div class="focus:outline-none mb-7 bg-white p-6 shadow rounded">
@@ -15,19 +38,18 @@
               </p>
 
               <div class="flex gap-2 pt-3">
-                <span class="inline-block text-xs font-medium px-3 py-1 rounded-full
-                  <%= post.post_type == "study_log" ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700" %>">
+                <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= post.post_type == 'study_log' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700' %>">
                   <%= post.post_type == "study_log" ? "学習記録" : "エラーログ" %>
                 </span>
 
-                <span class="inline-block text-xs font-medium px-3 py-1 rounded-full
-                  <%= post.status == "solved" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700" %>">
+                <span class="inline-block text-xs font-medium px-3 py-1 rounded-full <%= post.status == 'solved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
                   <%= post.status == "solved" ? "解決済み" : "未解決" %>
                 </span>
               </div>
             </div>
           </div>
         </div>
+
         <div class="px-2">
           <p class="focus:outline-none text-sm leading-5 py-4 text-gray-600 line-clamp-3 overflow-hidden">
             <%= post.content %>

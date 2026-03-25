@@ -2,7 +2,15 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy] # ログインしているかどうかを判断
  
   def index
-    @posts = Post.where(is_public: true).order(created_at: :desc).limit(10) #作成日時が新しい順
+    @posts = Post.order(created_at: :desc)
+
+    if params[:status].present?
+      @posts = @posts.where(status: params[:status])
+    end
+
+    if params[:post_type].present?
+      @posts = @posts.where(post_type: params[:post_type])
+    end
   end
  
   def new
