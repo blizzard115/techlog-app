@@ -4,6 +4,10 @@ class PostsController < ApplicationController
   def index
     @posts = Post.order(created_at: :desc)
 
+    if params[:keyword].present?
+      @posts = @posts.where("title LIKE ? OR content LIKE ?", "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+    end
+
     if params[:status].present?
       @posts = @posts.where(status: params[:status])
     end
@@ -12,7 +16,7 @@ class PostsController < ApplicationController
       @posts = @posts.where(post_type: params[:post_type])
     end
   end
- 
+  
   def new
     @post = Post.new # 新規投稿用のインスタンス変数を用意
   end
